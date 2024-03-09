@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
+use App\Http\Requests\Project\StoreRequest as ProjectStoreRequest;
+use App\Http\Requests\Project\UpdateRequest as ProjectUpdateRequest;
+
 
 
 //Models 
@@ -36,17 +39,13 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProjectStoreRequest $request)
     {
-        $projectData = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:10000',
-        ]);
+        $projectData = $request->validated();
 
-        // dd($request);
-        // $projectData = $request->all();
         $slug = Str::slug($projectData['title']);
-        $projectData['slug'] =$slug;
+        
+        //$projectData['slug'] =$slug;
 
         $project = Project::create([
             'title' => $projectData['title'],
@@ -76,14 +75,10 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectUpdateRequest $request, Project $project)
     {
-        $projectData = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:10000',
-        ]);
+        $projectData = $request->validated();
 
-        $projectData = $request->all();
         $slug = Str::slug($projectData['title']);
         
 
