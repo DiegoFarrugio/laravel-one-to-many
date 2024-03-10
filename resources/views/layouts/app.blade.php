@@ -27,7 +27,7 @@
                                 <a class="nav-link" href="{{ route('admin.projects.index') }}">Project</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Add Project</a>
+                                <a class="nav-link" href="{{ route('admin.types.index') }}">Type</a>
                             </li>
                         </ul>
                         <form method="POST" action="{{ route('logout') }}">

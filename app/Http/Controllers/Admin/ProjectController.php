@@ -14,6 +14,7 @@ use App\Http\Requests\Project\UpdateRequest as ProjectUpdateRequest;
 
 //Models 
 use App\Models\Project;
+use App\Models\Type;
 
 
 class ProjectController extends Controller
@@ -33,7 +34,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $types = Type::all();
+        return view('admin.projects.create', compact('types'));
     }
 
     /**
@@ -51,6 +53,7 @@ class ProjectController extends Controller
             'title' => $projectData['title'],
             'slug' => $slug,
             'content' => $projectData['content'],
+            'type_id' => $projectData['type_id'],
         ]);
 
         return redirect()->route('admin.projects.show', compact('project'));
@@ -69,7 +72,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $types = Type::all();
+
+        return view('admin.projects.edit', compact('project, types'));
     }
 
     /**
@@ -82,7 +87,12 @@ class ProjectController extends Controller
         $slug = Str::slug($projectData['title']);
         
 
-        $project->update($projectData);
+        $project->update([
+            'title' => $projectData['title'],
+            'slug' => $slug,
+            'content' => $projectData['content'],
+            'type_id' => $projectData['type_id'],
+        ]);
 
         return view('admin.projects.show', compact('project'));
         return redirect()->route('admin.projects.show', compact('project'));

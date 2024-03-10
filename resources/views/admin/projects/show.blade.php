@@ -11,6 +11,15 @@
                         {{$project->title}}
                     </h1>
 
+                    @if ($project->type != null)
+                        <h2>
+                            Tipo:
+                            <a href="{{ route('admin.types.show', ['type' => $project->type->id]) }}">
+                                {{ $project->type->title }}
+                            </a>
+                        </h2>
+                    @endif
+
                     <p>
                         {{$project->content}}
                     </p>

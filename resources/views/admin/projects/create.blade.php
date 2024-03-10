@@ -15,6 +15,18 @@
             </a>
         </div>
 
+        @if ($errors->any())
+        <div class="alert alert-danger mb-3">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>
+                        {{ $error }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
         <form action="{{ route('admin.projects.store') }}" method="POST">
             {{--
                 C   Cross
@@ -27,6 +39,24 @@
             <div class="mb-3">
                 <label for="title" class="form-label">Titolo <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Inserisci il titolo..." maxlength="255" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="type_id" class="form-label">Type</label>
+                <select name="type_id" id="type_id" class="form-select">
+                    <option
+                        value=""
+                        {{ old('type_id') == null ? 'selected' : '' }}>
+                        Seleziona tipo
+                    </option>
+                    @foreach ($types as $type)
+                        <option
+                          value="{{ $type->id }}"
+                            {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                            {{ $type->title }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="mb-3">
